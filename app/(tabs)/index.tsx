@@ -107,7 +107,7 @@ export default function HomeScreen() {
         <TouchableOpacity
           style={styles.searchBox}
           activeOpacity={0.85}
-          onPress={() => router.push('/hotels')}
+          onPress={() => router.push('/(tabs)/hotels-tab')}
         >
           <Ionicons name="search-outline" size={18} color={Colors.textMuted} />
           <Text style={styles.searchText}>Search places, hotels, packages…</Text>
@@ -147,7 +147,7 @@ export default function HomeScreen() {
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>Browse by Type</Text>
-            <TouchableOpacity onPress={() => router.push('/hotels')}>
+            <TouchableOpacity onPress={() => router.push('/(tabs)/hotels-tab')}>
               <Text style={styles.viewAll}>View All</Text>
             </TouchableOpacity>
           </View>
@@ -157,7 +157,7 @@ export default function HomeScreen() {
                 key={cat.id}
                 style={styles.catCard}
                 activeOpacity={0.8}
-                onPress={() => router.push('/hotels')}
+                onPress={() => router.push('/(tabs)/hotels-tab')}
               >
                 <View style={[styles.catIcon, { backgroundColor: cat.bg }]}>
                   <Ionicons name={cat.icon as any} size={24} color={cat.color} />

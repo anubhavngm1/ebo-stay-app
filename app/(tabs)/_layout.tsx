@@ -1,6 +1,6 @@
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { Platform, View } from 'react-native';
+import { Platform } from 'react-native';
 import { Colors } from '../../src/constants/theme';
 
 export default function TabsLayout() {
@@ -13,7 +13,7 @@ export default function TabsLayout() {
         tabBarStyle: {
           height: Platform.OS === 'android' ? 62 : 80,
           paddingBottom: Platform.OS === 'android' ? 10 : 24,
-          paddingTop: 10,
+          paddingTop: 8,
           backgroundColor: '#fff',
           borderTopWidth: 0,
           elevation: 12,
@@ -22,11 +22,7 @@ export default function TabsLayout() {
           shadowOpacity: 0.08,
           shadowRadius: 12,
         },
-        tabBarLabelStyle: {
-          fontSize: 11,
-          fontWeight: '600',
-          marginTop: 2,
-        },
+        tabBarLabelStyle: { fontSize: 11, fontWeight: '600', marginTop: 2 },
       }}
     >
       <Tabs.Screen
@@ -34,7 +30,16 @@ export default function TabsLayout() {
         options={{
           title: 'Home',
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'home' : 'home-outline'} size={23} color={color} />
+            <Ionicons name={focused ? 'home' : 'home-outline'} size={22} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="hotels-tab"
+        options={{
+          title: 'Hotels',
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons name={focused ? 'bed' : 'bed-outline'} size={22} color={color} />
           ),
         }}
       />
@@ -43,7 +48,7 @@ export default function TabsLayout() {
         options={{
           title: 'Packages',
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'briefcase' : 'briefcase-outline'} size={23} color={color} />
+            <Ionicons name={focused ? 'briefcase' : 'briefcase-outline'} size={22} color={color} />
           ),
         }}
       />
@@ -52,7 +57,7 @@ export default function TabsLayout() {
         options={{
           title: 'Bookings',
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'calendar' : 'calendar-outline'} size={23} color={color} />
+            <Ionicons name={focused ? 'calendar' : 'calendar-outline'} size={22} color={color} />
           ),
         }}
       />
@@ -61,7 +66,7 @@ export default function TabsLayout() {
         options={{
           title: 'Profile',
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'person' : 'person-outline'} size={23} color={color} />
+            <Ionicons name={focused ? 'person' : 'person-outline'} size={22} color={color} />
           ),
         }}
       />
