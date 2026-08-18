@@ -37,6 +37,7 @@ export default function ProfileScreen() {
           await SecureStore.deleteItemAsync('user_session');
           await SecureStore.deleteItemAsync('user_name');
           await SecureStore.deleteItemAsync('user_phone');
+          await SecureStore.deleteItemAsync('customer_id');
           router.replace('/login');
         },
       },
