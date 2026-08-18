@@ -48,19 +48,21 @@ export default function OtpScreen() {
       const res = await authApi.phoneVerifyOtp(phone || '', code);
       if (res.success) {
         await SecureStore.setItemAsync('user_session', '1');
+        if (res.data?.id) {
+          await SecureStore.setItemAsync('customer_id', String(res.data.id));
+        }
         if (res.data?.name) {
           await SecureStore.setItemAsync('user_name', res.data.name);
         }
+        if (res.data?.phone) {
+          await SecureStore.setItemAsync('user_phone', res.data.phone);
+        }
         router.replace('/(tabs)');
       } else {
-        // Demo: allow any OTP for testing
-        await SecureStore.setItemAsync('user_session', '1');
-        router.replace('/(tabs)');
+        Alert.alert('Error', res.error || 'Invalid OTP. Please try again.');
       }
-    } catch (e) {
-      // Allow flow even if backend CORS blocks
-      await SecureStore.setItemAsync('user_session', '1');
-      router.replace('/(tabs)');
+    } catch (e: any) {
+      Alert.alert('Error', e?.message || 'Could not verify OTP. Check internet & try again.');
     } finally {
       setLoading(false);
     }
