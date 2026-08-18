@@ -40,7 +40,11 @@
     "extra": {
       "router": {
         "origin": false
+      },
+      "eas": {
+        "projectId": ""
       }
-    }
+    },
+    "owner": "ebo-stay"
   }
 }
