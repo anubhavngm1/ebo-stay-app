@@ -16,6 +16,7 @@ import { Colors, FontSize, Spacing, Radius } from '../../src/constants/theme';
 import { dataApi } from '../../src/services/api';
 import PackageCard from '../../src/components/PackageCard';
 import { Package } from '../../src/types';
+import * as SecureStore from 'expo-secure-store';
 
 const { width } = Dimensions.get('window');
 
@@ -37,6 +38,7 @@ export default function HomeScreen() {
   const [packages, setPackages] = useState<Package[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [greetName, setGreetName] = useState('there');
 
   const loadData = async () => {
     try {
@@ -104,6 +106,12 @@ export default function HomeScreen() {
 
   useEffect(() => {
     loadData();
+    (async () => {
+      const session = await SecureStore.getItemAsync('user_session');
+      const n = await SecureStore.getItemAsync('user_name');
+      if (session === '1' && n) setGreetName(n);
+      else setGreetName('there');
+    })();
   }, []);
 
   return (
@@ -117,7 +125,7 @@ export default function HomeScreen() {
         {/* Header */}
         <View style={styles.header}>
           <View>
-            <Text style={styles.greeting}>Hi, Traveler 👋</Text>
+            <Text style={styles.greeting}>Hi, {greetName} 👋</Text>
             <Text style={styles.question}>Where do you want to go?</Text>
           </View>
           <TouchableOpacity style={styles.bell}>
