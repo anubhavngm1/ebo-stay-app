@@ -15,7 +15,7 @@ export default function HotelCard({ item, onPress }: Props) {
     item.image?.startsWith('http')
       ? item.image
       : item.image
-      ? `https://www.ebostay.com/assets/images/${item.image}`
+      ? `https://www.ebostay.com/assets/images/hotels/${item.image}`
       : 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400';
 
   const rating = Number(item.rating || item.star_rating || 4.2).toFixed(1);
@@ -23,19 +23,16 @@ export default function HotelCard({ item, onPress }: Props) {
 
   return (
     <TouchableOpacity style={styles.card} onPress={onPress} activeOpacity={0.88}>
-      {/* Thumbnail */}
       <View style={styles.imgWrap}>
         <Image source={{ uri }} style={styles.img} contentFit="cover" />
-        {/* Rating overlay on image */}
         <View style={styles.ratingOverlay}>
           <Ionicons name="star" size={10} color="#FBBF24" />
           <Text style={styles.ratingOverlayText}>{rating}</Text>
         </View>
       </View>
 
-      {/* Info */}
       <View style={styles.info}>
-        <Text style={styles.name} numberOfLines={1}>{item.name}</Text>
+        <Text style={styles.name} numberOfLines={2}>{item.name}</Text>
 
         <View style={styles.locationRow}>
           <Ionicons name="location-outline" size={12} color={Colors.textMuted} />
@@ -46,8 +43,8 @@ export default function HotelCard({ item, onPress }: Props) {
 
         {item.amenities && item.amenities.length > 0 && (
           <View style={styles.amenitiesRow}>
-            {item.amenities.slice(0, 3).map((a) => (
-              <View key={a} style={styles.amenityTag}>
+            {item.amenities.slice(0, 2).map((a) => (
+              <View key={String(a)} style={styles.amenityTag}>
                 <Text style={styles.amenityText}>{a}</Text>
               </View>
             ))}
@@ -77,16 +74,17 @@ const styles = StyleSheet.create({
     borderRadius: Radius.lg,
     marginBottom: 14,
     overflow: 'hidden',
+    height: 128,
+    borderWidth: 1,
+    borderColor: Colors.border,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.07,
     shadowRadius: 8,
     elevation: 2,
-    borderWidth: 1,
-    borderColor: Colors.border,
   },
-  imgWrap: { width: 112, position: 'relative' },
-  img: { width: 112, height: '100%', backgroundColor: Colors.surface },
+  imgWrap: { width: 112, height: 128 },
+  img: { width: 112, height: 128, backgroundColor: Colors.surface },
   ratingOverlay: {
     position: 'absolute',
     bottom: 6,
@@ -100,11 +98,11 @@ const styles = StyleSheet.create({
     paddingVertical: 3,
   },
   ratingOverlayText: { color: '#fff', fontSize: 10, fontWeight: '700' },
-  info: { flex: 1, padding: 12, justifyContent: 'space-between', minHeight: 110 },
-  name: { fontSize: FontSize.md, fontWeight: '700', color: Colors.text, marginBottom: 4 },
-  locationRow: { flexDirection: 'row', alignItems: 'center', gap: 3, marginBottom: 6 },
+  info: { flex: 1, padding: 12, justifyContent: 'space-between' },
+  name: { fontSize: FontSize.md, fontWeight: '700', color: Colors.text },
+  locationRow: { flexDirection: 'row', alignItems: 'center', gap: 3, marginTop: 4 },
   location: { fontSize: 12, color: Colors.textSecondary, flex: 1 },
-  amenitiesRow: { flexDirection: 'row', gap: 4, flexWrap: 'wrap', marginBottom: 8 },
+  amenitiesRow: { flexDirection: 'row', gap: 4, flexWrap: 'wrap', marginTop: 4 },
   amenityTag: {
     backgroundColor: Colors.secondary,
     borderRadius: Radius.sm,
@@ -112,7 +110,7 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
   },
   amenityText: { fontSize: 10, color: Colors.primary, fontWeight: '600' },
-  priceRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end' },
+  priceRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: 4 },
   price: { fontSize: FontSize.lg, fontWeight: '800', color: Colors.primary },
   perNight: { fontSize: 10, color: Colors.textMuted, marginTop: 1 },
   bookBtn: {

@@ -53,7 +53,16 @@ export default function HotelDetails() {
     );
   }
 
-  if (!hotel) return null;
+  if (!hotel) {
+    return (
+      <View style={styles.loader}>
+        <Text style={{ color: Colors.textSecondary }}>Hotel not found</Text>
+        <TouchableOpacity onPress={() => router.back()} style={{ marginTop: 16 }}>
+          <Text style={{ color: Colors.primary, fontWeight: '700' }}>Go Back</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 
   const imgUri = hotel.image?.startsWith('http')
     ? hotel.image

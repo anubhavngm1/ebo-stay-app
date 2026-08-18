@@ -26,7 +26,7 @@ const FALLBACK: Package = {
 const HIGHLIGHTS = [
   { icon: 'bed-outline', label: 'Hotel' },
   { icon: 'restaurant-outline', label: 'Meals' },
-  { icon: 'binoculars-outline', label: 'Sightseeing' },
+  { icon: 'map-outline', label: 'Sightseeing' },
   { icon: 'car-outline', label: 'Transport' },
 ];
 
@@ -59,7 +59,16 @@ export default function PackageDetails() {
     );
   }
 
-  if (!pkg) return null;
+  if (!pkg) {
+    return (
+      <View style={styles.loader}>
+        <Text style={{ color: Colors.textSecondary }}>Package not found</Text>
+        <TouchableOpacity onPress={() => router.back()} style={{ marginTop: 16 }}>
+          <Text style={{ color: Colors.primary, fontWeight: '700' }}>Go Back</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 
   const imgUri = pkg.image?.startsWith('http')
     ? pkg.image
