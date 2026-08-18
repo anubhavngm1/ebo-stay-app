@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { Colors, FontSize, Spacing, Radius } from '../src/constants/theme';
+import { Colors, FontSize, Radius } from '../src/constants/theme';
 import Button from '../src/components/Button';
 import { authApi } from '../src/services/api';
 import * as SecureStore from 'expo-secure-store';
@@ -20,6 +20,11 @@ export default function LoginScreen() {
   const router = useRouter();
   const [phone, setPhone] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const skipLogin = async () => {
+    await SecureStore.setItemAsync('user_session', 'guest');
+    router.replace('/(tabs)');
+  };
 
   const sendOtp = async () => {
     if (phone.length < 10) {
@@ -33,12 +38,10 @@ export default function LoginScreen() {
       if (res.success) {
         router.push({ pathname: '/otp', params: { phone: fullPhone } });
       } else {
-        // Even if API fails due to CORS/session, proceed for demo
-        router.push({ pathname: '/otp', params: { phone: fullPhone } });
+        Alert.alert('Error', res.error || 'Could not send OTP. Try again.');
       }
-    } catch (e) {
-      // Backend CORS may block, still allow flow for UI demo
-      router.push({ pathname: '/otp', params: { phone: `+91${phone}` } });
+    } catch (e: any) {
+      Alert.alert('Error', e?.message || 'Network error. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -49,11 +52,15 @@ export default function LoginScreen() {
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
+      {/* Small Skip button top-right */}
+      <TouchableOpacity style={styles.skipBtn} onPress={skipLogin} activeOpacity={0.7}>
+        <Text style={styles.skipText}>Skip</Text>
+      </TouchableOpacity>
+
       <View style={styles.inner}>
         <Text style={styles.title}>Welcome Back!</Text>
         <Text style={styles.subtitle}>Login to continue your journey</Text>
 
-        {/* Google button (UI only for now) */}
         <TouchableOpacity style={styles.googleBtn} activeOpacity={0.8}>
           <Ionicons name="logo-google" size={20} color="#DB4437" />
           <Text style={styles.googleText}>Continue with Google</Text>
@@ -94,6 +101,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.background,
+  },
+  skipBtn: {
+    position: 'absolute',
+    top: 54,
+    right: 20,
+    zIndex: 10,
+    paddingHorizontal: 14,
+    paddingVertical: 6,
+    borderRadius: 16,
+    backgroundColor: Colors.surface,
+  },
+  skipText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: Colors.textSecondary,
   },
   inner: {
     flex: 1,
