@@ -10,39 +10,27 @@ jobs:
     name: Build APK with EAS
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Setup Expo and EAS
-        uses: expo/expo-github-action@v8
+      - uses: expo/expo-github-action@v8
         with:
-          expo-version: latest
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
-      - name: Configure EAS project
-        run: |
-          # Create / link project if needed
-          npx eas-cli init --non-interactive --force 2>/dev/null || true
-          # Ensure app.json has owner
-          cat app.json
-
-      - name: Build Android APK (preview)
+      - name: Build Android APK
         run: npx eas-cli build --platform android --profile preview --non-interactive --wait
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
-      - name: Get build info
+      - name: Show build list
         if: always()
-        run: |
-          npx eas-cli build:list --platform android --limit 3 --non-interactive || true
+        run: npx eas-cli build:list --platform android --limit 2 --non-interactive || true
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
